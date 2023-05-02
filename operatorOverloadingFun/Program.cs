@@ -8,42 +8,56 @@ namespace Assignment9ex2Operatoroverloading
         public double Hours { get; set; }
         public string? Category { get; set; }
 
+        public Log()
+        {
+            Hours = 0;
+            Activity = string.Empty;
+            Category = string.Empty;
+        }
+
+        public Log(string activity, double hours, string? category)
+        {
+            this.Hours = hours;
+            this.Activity = activity;
+            this.Category = category;
+        }
         // overloaded operator ++ and operator --
         public static Log operator ++(Log log)
         {
-            return log;
+            return log.Hours++;
         }
         public static Log operator --(Log log)
         {
-            return log;
+            return log.Hours--;
         }
+
         // overloaded operator + and operator -
         public static Log operator +(Log lhs, int n)
         {
-            return new Log { Activity = lhs.Activity, Hours = lhs.Hours, Category = lhs.Category };
+            return new Log { Activity = lhs.Activity, Hours = lhs.Hours + n, Category = lhs.Category };
         }
         public static Log operator -(Log lhs, int n)
         {
-            return new Log { Activity = lhs.Activity };
+            return new Log { Activity = lhs.Activity, Hours = lhs.Hours-n, Category=lhs.Category};
         }
          // overloaded operator > and operator <
-         public static Log operator >(Log lhs, Log rhs)
+         public static bool operator >(Log lhs, Log rhs)
         {
             bool result = false;
             if (lhs.Activity != rhs.Activity)
             {
                 result = true;
             }
-            return result ? lhs : rhs;
+            return result;
         }
-        public static Log operator <(Log lhs, Log rhs)
+        public static bool operator <(Log lhs, Log rhs)
         {
             bool result = false;
             if(lhs.Activity != rhs.Activity)
             {
                 result = true;
             }
-            return result ? lhs : rhs;
+            return result;
         }
     }
     internal class Program
@@ -183,14 +197,14 @@ namespace Assignment9ex2Operatoroverloading
                             }
                         }
                         Console.WriteLine("Total Hours by Category");
-                        if (totalFun > totalWork == totalFun > totalOther)
+                        if (totalFun > totalWork && totalFun > totalOther)
                         {
                             Console.WriteLine("The largest number of hours was spent on fun!");
                             Console.WriteLine($"Your total fun hours = {totalFun.Hours}");
                             Console.WriteLine($"Your total work hours = {totalWork.Hours}");
                             Console.WriteLine($"Your total other hours = {totalOther.Hours}");
                         }
-                        else if (totalWork > totalFun == totalWork > totalOther)
+                        else if (!(totalWork < totalFun && totalWork < totalOther))
                         {
                             Console.WriteLine("The largest number of hours was spent on work");
                             Console.WriteLine($"Your total work hours = {totalWork.Hours}");
